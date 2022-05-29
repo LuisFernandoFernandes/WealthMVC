@@ -1,7 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using Wealth.Tools.database;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<Contexto>(options => options.UseSqlServer
+("Data Source=LUISFERNANDO\\SQLEXPRESS;Initial Catalog=Wealth;Integrated Security=True"));
 
 var app = builder.Build();
 
