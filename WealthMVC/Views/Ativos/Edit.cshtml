@@ -1,4 +1,5 @@
-﻿@model WealthMVC.Models.Ativos
+﻿@using WealthMVC.Enums
+@model WealthMVC.Models.Ativos
 
 @{
     ViewData["Title"] = "Edit";
@@ -13,8 +14,8 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Classe" class="control-label"></label>
-                <select asp-for="Classe" class="form-control"></select>
+                <label asp-for="Classe" class="control-label"></label><br />
+                @Html.DropDownListFor(o => o.Classe, Enum.GetValues(typeof(eAtivosClasse)).Cast<eAtivosClasse>().Select(x => new SelectListItem { Text = x.ToString(), Value = ((int)x).ToString() }))
                 <span asp-validation-for="Classe" class="text-danger"></span>
             </div>
             <div class="form-group">

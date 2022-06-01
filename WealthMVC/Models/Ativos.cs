@@ -15,11 +15,11 @@ namespace WealthMVC.Models
 
         [Column("Codigo")]
         [Display(Name = "Código")]
-        public string Codigo { get; set; }
+        public string? Codigo { get; set; }
 
         [Column("Descricao")]
         [Display(Name = "Descrição")]
-        public string Descricao { get; set; }
+        public string? Descricao { get; set; }
 
         //[Column("Classes")]
         //[Display(Name = "Classes")]

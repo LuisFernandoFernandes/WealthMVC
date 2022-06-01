@@ -15,10 +15,11 @@ namespace WealthMVC.Models
         [Display(Name = "Data")]
         public DateTime Data { get; set; }
 
-        [ForeignKey("AtivosId")]
         [Column("AtivosId")]
-        [Display(Name = "Ativos")]
-        public Ativos Ativos { get; set; }
+        [Display(Name = "AtivoId")]
+        public string? AtivosId { get; set; }
+        [ForeignKey("AtivosId")]
+        public Ativos? Ativos { get; set; }
 
         [Column("Quantidade")]
         [Display(Name = "Quantidade")]

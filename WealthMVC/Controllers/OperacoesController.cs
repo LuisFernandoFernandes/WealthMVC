@@ -14,20 +14,23 @@ namespace WealthMVC.Controllers
     {
         private readonly Contexto _context;
 
+        #region Construtor
         public OperacoesController(Contexto context)
         {
             _context = context;
         }
+        #endregion
 
-        // GET: Operacoes
+        #region GET: Operacoes
         public async Task<IActionResult> Index()
         {
             return _context.Operacoes != null ?
                         View(await _context.Operacoes.ToListAsync()) :
                         Problem("Entity set 'Contexto.Operacoes'  is null.");
         }
+        #endregion
 
-        // GET: Operacoes/Details/5
+        #region GET: Operacoes/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null || _context.Operacoes == null)
@@ -44,20 +47,28 @@ namespace WealthMVC.Controllers
 
             return View(operacoes);
         }
+        #endregion
 
-        // GET: Operacoes/Create
+        #region GET: Operacoes/Create
         public IActionResult Create()
         {
             return View();
         }
+        #endregion
 
-        // POST: Operacoes/Create
+        #region POST: Operacoes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Tipo,Data,AtivosId,Quantidade,Preco")] Operacoes operacoes)
         {
+            operacoes.Ativos = _context.Ativos.AsQueryable().
+                Where(a => a.Codigo == operacoes.AtivosId).FirstOrDefault();
+
+            operacoes.AtivosId = operacoes.Ativos.Id;
+
+            //operacoes.Ativos = null;
 
             operacoes.Id = _context.ValidaId(operacoes.Id);
             if (ModelState.IsValid)
@@ -68,8 +79,9 @@ namespace WealthMVC.Controllers
             }
             return View(operacoes);
         }
+        #endregion
 
-        // GET: Operacoes/Edit/5
+        # region GET: Operacoes/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null || _context.Operacoes == null)
@@ -84,6 +96,7 @@ namespace WealthMVC.Controllers
             }
             return View(operacoes);
         }
+        #endregion
 
         // POST: Operacoes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
