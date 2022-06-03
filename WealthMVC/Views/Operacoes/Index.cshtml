@@ -18,9 +18,15 @@
             <th>
                 @Html.DisplayNameFor(model => model.Data)
             </th>
-            <th>
+              <th>
                 @Html.DisplayNameFor(model => model.AtivosId)
             </th>
+             @*<th>
+                @Html.DisplayNameFor(model => model.Ativos.Classe)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ativos.Codigo)
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.Quantidade)
             </th>
@@ -42,6 +48,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.AtivosId)
             </td>
+           @* <td>
+                @Html.DisplayFor(modelItem => item.Ativos.Classe)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ativos.Codigo)
+            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.Quantidade)
             </td>

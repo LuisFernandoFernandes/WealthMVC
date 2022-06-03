@@ -5,7 +5,6 @@ namespace Wealth.Tools.database
 {
     public class Contexto : DbContext
     {
-        #region Configuração Contexto
         public Contexto(DbContextOptions<Contexto> options) : base(options)
         {
 
@@ -15,14 +14,14 @@ namespace Wealth.Tools.database
 
         public DbSet<WealthMVC.Models.Ativos>? Ativos { get; set; }
 
-        #endregion
-
-        #region Validação e Geração de Ids
+        #region ValidaId
         public string ValidaId(string id)
         {
             return id = (string.IsNullOrEmpty(id) || id.Length < 1) ? GeraId() : id;
         }
+        #endregion
 
+        #region GeraId
         public string GeraId()
         {
             Random random = new Random();
@@ -34,7 +33,7 @@ namespace Wealth.Tools.database
                   .ToArray());
             return result;
         }
-
         #endregion
+
     }
 }

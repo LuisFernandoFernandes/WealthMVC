@@ -4,16 +4,21 @@ namespace WealthMVC.Services
 {
     public class GenericService
     {
-        public GenericService(GenericService service)
-        {
+        //#region Construtor
+        //public GenericService(GenericService service)
+        //{
 
-        }
+        //}
+        //#endregion
 
+        //#region ValidaId
         //public string ValidaId(string id)
         //{
         //    return id = (string.IsNullOrEmpty(id) || id.Length < 1) ? GeraId() : id;
         //}
+        //#endregion
 
+        //#region GeraId
         //public string GeraId()
         //{
         //    Random random = new Random();
@@ -25,7 +30,6 @@ namespace WealthMVC.Services
         //          .ToArray());
         //    return result;
         //}
-
-
+        //#endregion
     }
 }

@@ -7,18 +7,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using Wealth.Tools.database;
 using WealthMVC.Models;
+using WealthMVC.Services;
 
 namespace WealthMVC.Controllers
 {
     public class AtivosController : Controller
     {
         private readonly Contexto _context;
+        //private readonly AtivosService _service;
 
+        #region Controller
         public AtivosController(Contexto context)
         {
             _context = context;
         }
+        #endregion
 
+        #region Get Index
         // GET: Ativos
         public async Task<IActionResult> Index()
         {
@@ -26,7 +31,9 @@ namespace WealthMVC.Controllers
                         View(await _context.Ativos.ToListAsync()) :
                         Problem("Entity set 'Contexto.Ativos'  is null.");
         }
+        #endregion
 
+        #region Get Details
         // GET: Ativos/Details/5
         public async Task<IActionResult> Details(string id)
         {
@@ -44,13 +51,17 @@ namespace WealthMVC.Controllers
 
             return View(ativos);
         }
+        #endregion
 
+        #region Get Create
         // GET: Ativos/Create
         public IActionResult Create()
         {
             return View();
         }
+        #endregion
 
+        #region Post Create
         // POST: Ativos/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -68,7 +79,9 @@ namespace WealthMVC.Controllers
             }
             return View(ativos);
         }
+        #endregion
 
+        #region Get Edit
         // GET: Ativos/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
@@ -84,7 +97,9 @@ namespace WealthMVC.Controllers
             }
             return View(ativos);
         }
+        #endregion
 
+        #region Post Edit
         // POST: Ativos/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -119,7 +134,9 @@ namespace WealthMVC.Controllers
             }
             return View(ativos);
         }
+        #endregion
 
+        #region Get Delete
         // GET: Ativos/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
@@ -137,7 +154,9 @@ namespace WealthMVC.Controllers
 
             return View(ativos);
         }
+        #endregion
 
+        #region Post Delete Confirmed
         // POST: Ativos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -156,10 +175,14 @@ namespace WealthMVC.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        #endregion
 
+        #region Ativos Exists
         private bool AtivosExists(string id)
         {
             return (_context.Ativos?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+        #endregion
+
     }
 }

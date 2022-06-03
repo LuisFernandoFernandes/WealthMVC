@@ -16,7 +16,7 @@ namespace WealthMVC.Models
         public DateTime Data { get; set; }
 
         [Column("AtivosId")]
-        [Display(Name = "AtivoId")]
+        [Display(Name = "Ativos")]
         public string? AtivosId { get; set; }
         [ForeignKey("AtivosId")]
         public Ativos? Ativos { get; set; }

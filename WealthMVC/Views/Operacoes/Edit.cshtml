@@ -1,4 +1,5 @@
-﻿@model WealthMVC.Models.Operacoes
+﻿@using WealthMVC.Enums
+@model WealthMVC.Models.Operacoes
 
 @{
     ViewData["Title"] = "Edit";
@@ -14,8 +15,8 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="Tipo" class="control-label"></label>
-                <select asp-for="Tipo" class="form-control"></select>
+                <label asp-for="Tipo" class="control-label"></label> <br />
+                @Html.DropDownListFor(o => o.Tipo, Enum.GetValues(typeof(eOperacoesTipo)).Cast<eOperacoesTipo>().Select(x => new SelectListItem { Text = x.ToString(), Value = ((int)x).ToString() }))
                 <span asp-validation-for="Tipo" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -24,9 +25,9 @@
                 <span asp-validation-for="Data" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Ativos" class="control-label"></label>
-                <input asp-for="Ativos" class="form-control" />
-                <span asp-validation-for="Ativos" class="text-danger"></span>
+                <label asp-for="AtivosId" class="control-label"></label>
+                <input asp-for="AtivosId" class="form-control" />
+                <span asp-validation-for="AtivosId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Quantidade" class="control-label"></label>
@@ -50,5 +51,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

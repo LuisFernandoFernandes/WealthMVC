@@ -20,23 +20,6 @@ namespace WealthMVC.Models
         [Column("Descricao")]
         [Display(Name = "Descrição")]
         public string? Descricao { get; set; }
-
-        //[Column("Classes")]
-        //[Display(Name = "Classes")]
-        //public List<SelectListItem> Classes { get; set; }
-
-        //public Ativos()
-        //{
-        //    var listaPessoaNatureza = from eAtivosClasse pn in Enum.GetValues(typeof(eAtivosClasse))
-        //                              select new SelectListItem
-        //                              {
-        //                                  Value = ((int)pn).ToString(),
-        //                                  Text = Enum.GetName(typeof(eAtivosClasse), pn),
-        //                                  Selected = Classe == (int)pn ? true : false
-        //                              };
-        //    Classes = listaPessoaNatureza.ToList();
-        //}
-
     }
 
 }
