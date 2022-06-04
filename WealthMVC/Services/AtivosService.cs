@@ -1,14 +1,11 @@
-﻿namespace WealthMVC.Services
-{
-    public class AtivosService : GenericService
-    {
-        //public AtivosService(GenericService service) : base(service)
-        //{
-        //}
+﻿using WealthMVC.Models;
 
-        //public static implicit operator AtivosService(OperacoesService v)
-        //{
-        //    throw new NotImplementedException();
-        //}
+namespace WealthMVC.Services
+{
+    public class AtivosService : GenericService<Ativos>, IAtivosService
+    {
+        public AtivosService(GenericService<Ativos> service) : base(service)
+        {
+        }
     }
 }

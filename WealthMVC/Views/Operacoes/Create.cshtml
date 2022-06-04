@@ -2,12 +2,11 @@
 @model WealthMVC.Models.Operacoes
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Operação";
 }
 
-<h1>Create</h1>
+<h1>Operação</h1>
 
-<h4>Operacoes</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -29,9 +28,9 @@
                 <span asp-validation-for="Data" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Ativos" class="control-label"></label>
-                <input asp-for="AtivosId" class="form-control" />
-                <span asp-validation-for="AtivosId" class="text-danger"></span>
+                <label asp-for="Ativos.Codigo" class="control-label"></label>
+                <input asp-for="Ativos.Codigo" class="form-control" />
+                <span asp-validation-for="Ativos.Codigo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Quantidade" class="control-label"></label>
@@ -42,13 +41,13 @@
                 <label asp-for="Preco" class="control-label"></label>
                 <input asp-for="Preco" class="form-control" />
                 <span asp-validation-for="Preco" class="text-danger"></span>
-            </div>
+            </div><br />
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
-</div>
+</div><br />
 
 <div>
     <a asp-action="Index">Back to List</a>

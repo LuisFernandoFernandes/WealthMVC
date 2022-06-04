@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Wealth.Tools.database;
 
@@ -11,9 +12,10 @@ using Wealth.Tools.database;
 namespace WealthMVC.Migrations
 {
     [DbContext(typeof(Contexto))]
-    partial class ContextoModelSnapshot : ModelSnapshot
+    [Migration("20220603223504_portifolio")]
+    partial class portifolio
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -88,9 +90,15 @@ namespace WealthMVC.Migrations
                         .HasColumnType("nvarchar(450)")
                         .HasColumnName("AtivosId");
 
+                    b.Property<string>("OperacoesId")
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("OperacoesId");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AtivosId");
+
+                    b.HasIndex("OperacoesId");
 
                     b.ToTable("PORTIFOLIO");
                 });
@@ -110,7 +118,13 @@ namespace WealthMVC.Migrations
                         .WithMany()
                         .HasForeignKey("AtivosId");
 
+                    b.HasOne("WealthMVC.Models.Operacoes", "Operacoes")
+                        .WithMany()
+                        .HasForeignKey("OperacoesId");
+
                     b.Navigation("Ativos");
+
+                    b.Navigation("Operacoes");
                 });
 #pragma warning restore 612, 618
         }

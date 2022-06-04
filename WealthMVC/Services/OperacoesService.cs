@@ -1,9 +1,11 @@
-﻿namespace WealthMVC.Services
+﻿using WealthMVC.Models;
+
+namespace WealthMVC.Services
 {
-    public class OperacoesService : GenericService
+    public class OperacoesService : GenericService<Operacoes>, IOperacoesServicer
     {
-        //public OperacoesService(GenericService service) : base(service)
-        //{
-        //}
+        public OperacoesService(GenericService<Operacoes> service) : base(service)
+        {
+        }
     }
 }

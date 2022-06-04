@@ -69,7 +69,7 @@ namespace WealthMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Classe,Codigo,Descricao,Id")] Ativos ativos)
         {
-
+            ativos.Codigo = ativos.Codigo.ToUpper();
             ativos.Id = _context.ValidaId(ativos.Id);
             if (ModelState.IsValid)
             {

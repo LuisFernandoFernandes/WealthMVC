@@ -35,5 +35,9 @@ namespace Wealth.Tools.database
         }
         #endregion
 
+        #region GeraId
+        public DbSet<WealthMVC.Models.Portifolio>? Portifolio { get; set; }
+        #endregion
+
     }
 }
