@@ -1,4 +1,4 @@
-﻿namespace WealthMVC.Services
+﻿namespace WealthMVC.Services.Interfaces
 {
     internal interface IOperacoesServicer
     {

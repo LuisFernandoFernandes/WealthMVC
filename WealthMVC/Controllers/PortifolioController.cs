@@ -24,59 +24,33 @@ namespace WealthMVC.Controllers
         public async Task<IActionResult> Index()
         {
 
+            var operacoes = _context.Operacoes.OrderByDescending(a => a.Data);
+            var ativos = await _context.Ativos.ToListAsync();
 
-            //var ativos = await _context.Ativos.ToListAsync();
-
-            //List<object> lista = new List<object>();
-            //foreach (var ativo in ativos)
-            //{
-            //    lista.Add(GetDados(ativo.Id));
-            //}
-
-            //return View(lista);
-
-            // var contexto = _context.Portifolio.Include(p => p.Ativos);
-            return View(await _context.Portifolio.ToListAsync());
-        }
-        #endregion
-
-        #region Get Dados
-        /// <summary>
-        /// Retorna os dados que compoem o portifólio: Ativos, PrecoMedio, QuantidadeAtual, TotalAquisicao.
-        /// </summary>
-        /// <param name="ativoId"></param>
-        public List<Object> GetDados(string ativoId)
-        {
-            List<Object> portifolioItem = new List<Object>();
-            var ativo = _context.Ativos.AsQueryable().Where(a => a.Id == ativoId).FirstOrDefault();
-            var operacoes = _context.Operacoes.AsQueryable().Where(a => a.AtivosId == ativoId).ToList();
-
-
-            decimal quantidadeComprada = 0;
-            decimal quantidadeAtual = 0;
-            decimal valorTotal = 0;
-            foreach (var operacao in operacoes)
+            List<Portifolio> retorno = new List<Portifolio>();
+            foreach (var ativo in ativos)
             {
-                if (operacao.Tipo == Enums.eOperacoesTipo.Compra)
+                foreach (var operacao in operacoes)
                 {
-                    valorTotal = (operacao.Preco * operacao.Quantidade) + valorTotal;
-                    quantidadeComprada = quantidadeComprada + operacao.Quantidade;
-                }
-                else if (operacao.Tipo == Enums.eOperacoesTipo.Venda)
-                {
-                    quantidadeAtual = quantidadeComprada - operacao.Quantidade;
+                    if (operacao.AtivosId == ativo.Id)
+                    {
+                        Portifolio portifolio = new Portifolio
+                        {
+                            Ativos = ativo,
+                            Operacoes = operacao
+                        };
+                        retorno.Add(portifolio);
+                        break;
+                    }
                 }
             }
-            if (quantidadeAtual == 0) { return portifolioItem; }
-            var precoMedio = valorTotal / quantidadeComprada;
-            var totalAquisicao = precoMedio * quantidadeAtual;
 
-            portifolioItem.Add(ativo);
-            portifolioItem.Add(precoMedio);
-            portifolioItem.Add(quantidadeAtual);
-            portifolioItem.Add(totalAquisicao);
+            return View(retorno);
 
-            return portifolioItem;
+
+
+            //var contexto = _context.Portifolio.Include(p => p.Ativos);
+            //return View(await _context.Portifolio.ToListAsync());
         }
         #endregion
 

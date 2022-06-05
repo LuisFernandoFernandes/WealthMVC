@@ -1,8 +1,9 @@
 ﻿using WealthMVC.Models;
+using WealthMVC.Services.Interfaces;
 
 namespace WealthMVC.Services
 {
-    public class GenericService<T>
+    public class GenericService<T> : IGenericService<T>
     {
         #region Construtor
         public GenericService(GenericService<T> service)

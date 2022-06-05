@@ -1,4 +1,5 @@
 ﻿using WealthMVC.Models;
+using WealthMVC.Services.Interfaces;
 
 namespace WealthMVC.Services
 {

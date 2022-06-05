@@ -16,7 +16,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.Ativos.Codigo)
             </th>
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Operacoes.QuantidadeAtual)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Operacoes.PrecoAtual)
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -27,6 +32,12 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Ativos.Codigo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Operacoes.QuantidadeAtual)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Operacoes.PrecoAtual)
             </td>
         </tr>
 }

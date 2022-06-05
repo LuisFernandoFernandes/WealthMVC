@@ -73,18 +73,69 @@ namespace WealthMVC.Controllers
         #region Post Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Tipo,Data,AtivosId,Quantidade,Preco")] Operacoes operacao, Ativos ativos)
+        public async Task<IActionResult> Create([Bind("Id,Tipo,Data,AtivosId,Quantidade,Preco, QuantidadeAtual, PrecoAtual")] Operacoes operacao, Ativos ativos)
         {
+            ativos.Codigo = ativos.Codigo.ToUpper();
 
             ativos = _context.Ativos.AsQueryable().Where(a => a.Codigo == ativos.Codigo).FirstOrDefault();
-
-            ativos.Codigo = ativos.Codigo.ToUpper();
 
             operacao.Ativos = ativos;
 
             operacao.AtivosId = operacao.Ativos.Id;
 
             operacao.Id = _context.ValidaId(operacao.Id);
+
+            var operacoes = _context.Operacoes.AsQueryable().Where(a => a.AtivosId == ativos.Id).ToList();
+
+            if (operacoes.Count == 0)
+            {
+                operacao.QuantidadeAtual = operacao.Quantidade;
+                operacao.PrecoAtual = operacao.Preco;
+            }
+            else
+            {
+
+
+                decimal quantidadeAtual = 0;
+                decimal quantidadeComprada = 0;
+                decimal valorTotal = 0;
+
+
+                foreach (var item in operacoes)
+                {
+                    if (item.Tipo == Enums.eOperacoesTipo.Compra)
+                    {
+                        valorTotal = (item.Preco * item.Quantidade) + valorTotal;
+                        quantidadeComprada = quantidadeComprada + item.Quantidade;
+                        quantidadeAtual = quantidadeAtual + item.Quantidade;
+                    }
+                    else if (item.Tipo == Enums.eOperacoesTipo.Venda)
+                    {
+                        quantidadeAtual = quantidadeAtual - item.Quantidade;
+                    }
+                }
+
+                if (operacao.Tipo == Enums.eOperacoesTipo.Compra)
+                {
+                    valorTotal = (operacao.Preco * operacao.Quantidade) + valorTotal;
+                    quantidadeComprada = quantidadeComprada + operacao.Quantidade;
+                    quantidadeAtual = quantidadeAtual + operacao.Quantidade;
+                }
+                else if (operacao.Tipo == Enums.eOperacoesTipo.Venda)
+                {
+                    quantidadeAtual = quantidadeAtual - operacao.Quantidade;
+                }
+
+                if (quantidadeAtual != 0)
+                {
+                    var precoMedio = valorTotal / quantidadeComprada;
+
+                    operacao.QuantidadeAtual = quantidadeAtual;
+                    operacao.PrecoAtual = precoMedio;
+                }
+            }
+
+
             if (ModelState.IsValid)
             {
                 _context.Add(operacao);
