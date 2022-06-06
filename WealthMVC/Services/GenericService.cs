@@ -6,7 +6,7 @@ namespace WealthMVC.Services
     public class GenericService<T> : IGenericService<T>
     {
         #region Construtor
-        public GenericService(GenericService<T> service)
+        public GenericService()
         {
 
         }

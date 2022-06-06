@@ -5,14 +5,23 @@ namespace Wealth.Tools.database
 {
     public class Contexto : DbContext
     {
+        #region Construtor
         public Contexto(DbContextOptions<Contexto> options) : base(options)
         {
 
         }
 
-        public DbSet<Operacoes> Operacoes { get; set; }
+        protected Contexto(DbContextOptions contextOptions)
+        : base(contextOptions)
+        {
+        }
+        #endregion
 
-        public DbSet<WealthMVC.Models.Ativos>? Ativos { get; set; }
+        #region DbSet
+        public DbSet<Operacoes> Operacoes { get; set; }
+        public DbSet<Ativos> Ativos { get; set; }
+        public DbSet<Portifolio> Portifolio { get; set; }
+        #endregion
 
         #region ValidaId
         public string ValidaId(string id)
@@ -33,10 +42,6 @@ namespace Wealth.Tools.database
                   .ToArray());
             return result;
         }
-        #endregion
-
-        #region GeraId
-        public DbSet<WealthMVC.Models.Portifolio>? Portifolio { get; set; }
         #endregion
 
     }
