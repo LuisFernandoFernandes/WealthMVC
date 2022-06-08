@@ -17,11 +17,12 @@ namespace WealthMVC.Controllers
 {
     public class AtivosController : Controller
     {
-
-        #region Construtor
+        #region Variáveis
         private readonly Contexto _context;
         private readonly IAtivosService _service;
+        #endregion
 
+        #region Construtor
         public AtivosController(Contexto context)
         {
             _context = context;
@@ -32,7 +33,7 @@ namespace WealthMVC.Controllers
         #region Get Index
         public async Task<IActionResult> Index()
         {
-            return _service != null ? View(await _service.ListaAtivos()) : Problem("Entity set 'Contexto.Ativos'  is null.");
+            return _service != null ? View(await _service.GetAtivos()) : Problem("Entity set 'Contexto.Ativos'  is null.");
         }
         #endregion
 
@@ -48,7 +49,7 @@ namespace WealthMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Classe,Codigo,Descricao,Id")] Ativos ativos)
         {
-            return (await _service.Create(ativos, _context) is eBoolean.Sim) ? RedirectToAction(nameof(Index)) : View(ativos);
+            return (await _service.Create(ativos, _context) is eResult.Ok) ? RedirectToAction(nameof(Index)) : View(ativos);
         }
         #endregion
 
@@ -56,7 +57,7 @@ namespace WealthMVC.Controllers
         public async Task<IActionResult> Edit(string id)
         {
 
-            return (await _service.GetEdit(id, _context) is eBoolean.Sim) ? View(await _context.Ativos.FindAsync(id)) : NotFound();
+            return (await _service.GetEdit(id, _context) is eResult.Ok) ? View(await _context.Ativos.FindAsync(id)) : NotFound();
         }
         #endregion
 
@@ -65,50 +66,27 @@ namespace WealthMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("Classe,Codigo,Descricao,Id")] Ativos ativos)
         {
-            return (await _service.PostEdit(id, ativos, _context) is eBoolean.Sim) ? RedirectToAction(nameof(Index)) :
-                (await _service.ValidaModelState(id, ativos, _context) is eBoolean.Nao) ? View(ativos) : NotFound();
-            #endregion
-
-            //#region Get Delete
-            //// GET: Ativos/Delete/5
-            //public async Task<IActionResult> Delete(string id)
-            //{
-            //    if (id == null || _context.Ativos == null)
-            //    {
-            //        return NotFound();
-            //    }
-
-            //    var ativos = await _context.Ativos
-            //        .FirstOrDefaultAsync(m => m.Id == id);
-            //    if (ativos == null)
-            //    {
-            //        return NotFound();
-            //    }
-
-            //    return View(ativos);
-            //}
-            //#endregion
-
-            //#region Post Delete Confirmed
-            //// POST: Ativos/Delete/5
-            //[HttpPost, ActionName("Delete")]
-            //[ValidateAntiForgeryToken]
-            //public async Task<IActionResult> DeleteConfirmed(string id)
-            //{
-            //    if (_context.Ativos == null)
-            //    {
-            //        return Problem("Entity set 'Contexto.Ativos'  is null.");
-            //    }
-            //    var ativos = await _context.Ativos.FindAsync(id);
-            //    if (ativos != null)
-            //    {
-            //        _context.Ativos.Remove(ativos);
-            //    }
-
-            //    await _context.SaveChangesAsync();
-            //    return RedirectToAction(nameof(Index));
-            //}
-            //#endregion
+            return (await _service.ValidaModelState(id, ativos) is eResult.Invalid) ? View(ativos) : (await _service.PostEdit(id, ativos, _context) is eResult.Ok) ? RedirectToAction(nameof(Index)) : NotFound();
         }
+        #endregion
+
+        #region Get Delete
+        public async Task<IActionResult> Delete(string id)
+        {
+
+            return (await _service.Delete(id, _context) is eResult.Ok) ? View(await _service.GetAtivoById(id, _context)) : NotFound();
+        }
+        #endregion
+
+        #region Post Delete Confirmed
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string id)
+        {
+
+            return (await _service.DeleteConfirmed(id, _context) is eResult.Ok) ? RedirectToAction(nameof(Index)) : Problem("Entity set 'Contexto.Ativos'  is null.");
+        }
+        #endregion
     }
 }
+

@@ -13,24 +13,30 @@ namespace WealthMVC.Services
 {
     public class AtivosService : GenericService<Ativos>, IAtivosService
     {
+        #region Variáveis
         private IValidationDictionary _validatonDictionary;
         private AtivosRepository _repository;
 
         ModelStateDictionary modelState = new ModelStateDictionary();
+        #endregion
 
+        #region Construtor
         public AtivosService(IValidationDictionary validatonDictionary, AtivosRepository repository)
         {
             _validatonDictionary = validatonDictionary;
             _repository = repository;
-
         }
+        #endregion
 
-        public async Task<IEnumerable<Ativos>> ListaAtivos()
+        #region Lista Ativos
+        public async Task<IEnumerable<Ativos>> GetAtivos()
         {
             return await _repository.ListaAtivos();
         }
+        #endregion
 
-        public async Task<eBoolean> Create(Ativos ativos, Contexto context)
+        #region Create
+        public async Task<eResult> Create(Ativos ativos, Contexto context)
         {
 
             ativos.Codigo = ativos.Codigo.ToUpper();
@@ -38,55 +44,93 @@ namespace WealthMVC.Services
             if (modelState.IsValid)
             {
 
+
                 context.Add(ativos);
                 context.SaveChangesAsync();
-                return eBoolean.Sim;
+                return eResult.Ok;
             }
-            return eBoolean.Nao;
+            return eResult.Invalid;
         }
+        #endregion
 
-        public async Task<eBoolean> GetEdit(string id, Contexto context)
+        #region Get Edit
+        public async Task<eResult> GetEdit(string id, Contexto context)
         {
             if (id == null || context.Ativos == null)
             {
-                return eBoolean.Nao;
+                return eResult.NotFound;
             }
 
             var ativos = await context.Ativos.FindAsync(id);
             if (ativos == null)
             {
-                return eBoolean.Nao;
+                return eResult.NotFound;
             }
-            return eBoolean.Sim;
+            return eResult.Ok;
         }
+        #endregion
 
-        public async Task<eBoolean> PostEdit(string id, Ativos ativos, Contexto context)
+        #region Post Edit
+        public async Task<eResult> PostEdit(string id, Ativos ativos, Contexto context)
         {
 
-            if (id != ativos.Id) { return eBoolean.Nao; }
+            if (id != ativos.Id) { return eResult.NotFound; }
 
-
-            if (modelState.IsValid)
+            try
             {
-                try
-                {
-                    context.Update(ativos);
-                    await context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!AtivosExists(ativos.Id, context)) return eBoolean.Nao;
-                    else throw;
-                }
-                return eBoolean.Sim;
+                context.Update(ativos);
+                await context.SaveChangesAsync();
             }
-            return eBoolean.Nao;
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!AtivosExists(ativos.Id, context)) return eResult.NotFound;
+                else throw;
+            }
+            return eResult.Ok;
         }
+        #endregion
 
-        public async Task<eBoolean> ValidaModelState(string id, Ativos ativos, Contexto context)
+        #region Delete
+        public async Task<eResult> Delete(string id, Contexto context)
         {
-            return (id == ativos.Id && !modelState.IsValid) ? eBoolean.Nao : eBoolean.Sim;
+            if (id == null || _repository == null) { return eResult.NotFound; }
+
+            var ativos = await context.Ativos.FirstOrDefaultAsync(a => a.Id == id);
+
+            if (ativos == null) { return eResult.NotFound; }
+
+            return eResult.Ok;
         }
+        #endregion
+
+        #region Delete Confirmed
+        public async Task<eResult> DeleteConfirmed(string id, Contexto context)
+        {
+            if (context.Ativos == null) { return eResult.Invalid; }
+
+            var ativos = await context.Ativos.FindAsync(id);
+
+            if (ativos != null) { context.Ativos.Remove(ativos); }
+
+            await context.SaveChangesAsync();
+
+            return eResult.Ok;
+        }
+        #endregion
+
+        #region Get Ativo By Id
+        public async Task<Ativos> GetAtivoById(string id, Contexto context)
+        {
+            return await context.Ativos.FirstOrDefaultAsync(a => a.Id == id);
+        }
+        #endregion
+
+        #region Valida Model State
+        public async Task<eResult> ValidaModelState(string id, Ativos ativos)
+        {
+            return (id == ativos.Id && !modelState.IsValid) ? eResult.Invalid : eResult.Ok;
+        }
+        #endregion
 
         #region Ativos Exists
         public bool AtivosExists(string id, Contexto context)
