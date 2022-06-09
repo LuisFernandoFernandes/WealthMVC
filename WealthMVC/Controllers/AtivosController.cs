@@ -57,7 +57,7 @@ namespace WealthMVC.Controllers
         public async Task<IActionResult> Edit(string id)
         {
 
-            return (await _service.GetEdit(id, _context) is eResult.Ok) ? View(await _context.Ativos.FindAsync(id)) : NotFound();
+            return (await _service.GetEdit(id, _context) is eResult.Ok) ? View(await _service.GetAtivoById(id, _context)) : NotFound();
         }
         #endregion
 
@@ -73,7 +73,6 @@ namespace WealthMVC.Controllers
         #region Get Delete
         public async Task<IActionResult> Delete(string id)
         {
-
             return (await _service.Delete(id, _context) is eResult.Ok) ? View(await _service.GetAtivoById(id, _context)) : NotFound();
         }
         #endregion
