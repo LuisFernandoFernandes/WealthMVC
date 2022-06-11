@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Wealth.Tools.database;
 
@@ -11,9 +12,10 @@ using Wealth.Tools.database;
 namespace WealthMVC.Migrations
 {
     [DbContext(typeof(Contexto))]
-    partial class ContextoModelSnapshot : ModelSnapshot
+    [Migration("20220610225413_10062022")]
+    partial class _10062022
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,16 +87,13 @@ namespace WealthMVC.Migrations
                         .HasColumnName("Id");
 
                     b.Property<string>("AtivosId")
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnName("AtivosId");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal?>("Preco")
-                        .HasColumnType("decimal(18,2)")
-                        .HasColumnName("Preco");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal?>("Quantidade")
-                        .HasColumnType("decimal(18,2)")
-                        .HasColumnName("Quantidade");
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 

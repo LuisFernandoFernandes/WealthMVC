@@ -23,36 +23,25 @@ namespace WealthMVC.Controllers
         #region Get Portifolio
         public async Task<IActionResult> Index()
         {
+            var portifolio = await _context.Portifolio.ToListAsync();
 
-            var operacoes = _context.Operacoes.OrderByDescending(a => a.Data);
-            var ativos = await _context.Ativos.ToListAsync();
-
-            List<Portifolio> retorno = new List<Portifolio>();
-            foreach (var ativo in ativos)
+            List<Portifolio> portifolioList = new List<Portifolio>();
+            foreach (var item in portifolio)
             {
-                foreach (var operacao in operacoes)
+                if (item.Quantidade != 0)
                 {
-                    if (operacao.AtivosId == ativo.Id)
-                    {
-                        Portifolio portifolio = new Portifolio
-                        {
-                            Ativos = ativo,
-                            Operacoes = operacao
-                        };
-                        retorno.Add(portifolio);
-                        break;
-                    }
+
+                    var ativo = _context.Ativos.AsQueryable()
+                         .Where(a => a.Id == item.AtivosId).FirstOrDefault();
+
+                    item.Ativos = ativo;
+                    portifolioList.Add(item);
                 }
             }
 
-            return View(retorno);
-
-
-
-            //var contexto = _context.Portifolio.Include(p => p.Ativos);
-            //return View(await _context.Portifolio.ToListAsync());
+            return _context.Portifolio != null ? View(portifolioList) : Problem("Entity set 'Contexto.Operacoes'  is null.");
         }
         #endregion
-
     }
 }
+

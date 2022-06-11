@@ -28,13 +28,5 @@ namespace WealthMVC.Models
         [Column("Preco")]
         [Display(Name = "Preço")]
         public decimal Preco { get; set; }
-
-        [Column("QuantidadeAtual")]
-        [Display(Name = "Quantidade Atual")]
-        public decimal QuantidadeAtual { get; set; }
-
-        [Column("PrecoAtual")]
-        [Display(Name = "Preço Atual")]
-        public decimal PrecoAtual { get; set; }
     }
 }

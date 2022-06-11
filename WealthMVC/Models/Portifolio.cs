@@ -5,14 +5,18 @@ namespace WealthMVC.Models
 {
     public class Portifolio : GenericModel
     {
+        [Column("AtivosId")]
         [Display(Name = "Ativos")]
         public string? AtivosId { get; set; }
         [ForeignKey("AtivosId")]
         public Ativos? Ativos { get; set; }
 
-        [Display(Name = "Operações")]
-        public string? OperacoesId { get; set; }
-        [ForeignKey("OperacoesId")]
-        public Operacoes? Operacoes { get; set; }
+        [Column("Quantidade")]
+        [Display(Name = "Quantidade")]
+        public decimal? Quantidade { get; set; }
+
+        [Column("Preco")]
+        [Display(Name = "Preço")]
+        public decimal? Preco { get; set; }
     }
 }

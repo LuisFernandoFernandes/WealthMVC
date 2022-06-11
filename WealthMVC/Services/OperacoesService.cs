@@ -69,6 +69,7 @@ namespace WealthMVC.Services
         #region Create
         public async Task<eResult> Create(Operacoes operacao, Ativos ativos, Contexto context)
         {
+
             ativos.Codigo = ativos.Codigo.ToUpper();
 
             ativos = context.Ativos.AsQueryable().Where(a => a.Codigo == ativos.Codigo).FirstOrDefault();
@@ -81,58 +82,61 @@ namespace WealthMVC.Services
 
             var operacoes = context.Operacoes.AsQueryable().Where(a => a.AtivosId == ativos.Id).ToList();
 
-            if (operacoes.Count == 0)
-            {
-                operacao.QuantidadeAtual = operacao.Quantidade;
-                operacao.PrecoAtual = operacao.Preco;
-            }
-            else
-            {
+            var queryPortifolio = context.Portifolio.AsQueryable().Where(a => a.AtivosId == ativos.Id).FirstOrDefault();
 
-
-                decimal quantidadeAtual = 0;
-                decimal quantidadeComprada = 0;
-                decimal valorTotal = 0;
-
-
-                foreach (var item in operacoes)
-                {
-                    if (item.Tipo == eOperacoesTipo.Compra)
-                    {
-                        valorTotal = (item.Preco * item.Quantidade) + valorTotal;
-                        quantidadeComprada = quantidadeComprada + item.Quantidade;
-                        quantidadeAtual = quantidadeAtual + item.Quantidade;
-                    }
-                    else if (item.Tipo == eOperacoesTipo.Venda)
-                    {
-                        quantidadeAtual = quantidadeAtual - item.Quantidade;
-                    }
-                }
-
-                if (operacao.Tipo == eOperacoesTipo.Compra)
-                {
-                    valorTotal = (operacao.Preco * operacao.Quantidade) + valorTotal;
-                    quantidadeComprada = quantidadeComprada + operacao.Quantidade;
-                    quantidadeAtual = quantidadeAtual + operacao.Quantidade;
-                }
-                else if (operacao.Tipo == eOperacoesTipo.Venda)
-                {
-                    quantidadeAtual = quantidadeAtual - operacao.Quantidade;
-                }
-
-                if (quantidadeAtual != 0)
-                {
-                    var precoMedio = valorTotal / quantidadeComprada;
-
-                    operacao.QuantidadeAtual = quantidadeAtual;
-                    operacao.PrecoAtual = precoMedio;
-                }
-            }
-
+            Portifolio portifolio = (queryPortifolio is null) ? new Portifolio() : queryPortifolio;
 
             if (modelState.IsValid)
             {
+                if (operacoes.Count == 0)
+                {
+                    portifolio.Id = GeraId();
+                    portifolio.AtivosId = ativos.Id;
+                    portifolio.Quantidade = operacao.Quantidade;
+                    portifolio.Preco = operacao.Preco;
+                }
+                else
+                {
+
+
+                    decimal quantidadeAtual = 0;
+                    decimal quantidadeComprada = 0;
+                    decimal valorTotal = 0;
+
+
+                    foreach (var item in operacoes)
+                    {
+                        if (item.Tipo == eOperacoesTipo.Compra)
+                        {
+                            valorTotal = (item.Preco * item.Quantidade) + valorTotal;
+                            quantidadeComprada = quantidadeComprada + item.Quantidade;
+                            quantidadeAtual = quantidadeAtual + item.Quantidade;
+                        }
+                        else if (item.Tipo == eOperacoesTipo.Venda)
+                        {
+                            quantidadeAtual = quantidadeAtual - item.Quantidade;
+                        }
+                    }
+
+                    if (operacao.Tipo == eOperacoesTipo.Compra)
+                    {
+                        valorTotal = (operacao.Preco * operacao.Quantidade) + valorTotal;
+                        quantidadeComprada = quantidadeComprada + operacao.Quantidade;
+                        quantidadeAtual = quantidadeAtual + operacao.Quantidade;
+                    }
+                    else if (operacao.Tipo == eOperacoesTipo.Venda)
+                    {
+                        quantidadeAtual = quantidadeAtual - operacao.Quantidade;
+                    }
+
+                    var precoMedio = valorTotal / quantidadeComprada;
+
+                    portifolio.Quantidade = quantidadeAtual;
+                    portifolio.Preco = precoMedio;
+                }
+
                 context.Add(operacao);
+                context.Update(portifolio);
                 await context.SaveChangesAsync();
                 return eResult.Ok;
             }
