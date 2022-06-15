@@ -92,6 +92,7 @@ namespace WealthMVC.Services
                 {
                     portifolio.Id = GeraId();
                     portifolio.AtivosId = ativos.Id;
+                    portifolio.Ativos = ativos;
                     portifolio.Quantidade = operacao.Quantidade;
                     portifolio.Preco = operacao.Preco;
                 }
@@ -99,9 +100,9 @@ namespace WealthMVC.Services
                 {
 
 
-                    decimal quantidadeAtual = 0;
-                    decimal quantidadeComprada = 0;
-                    decimal valorTotal = 0;
+                    double quantidadeAtual = 0;
+                    double quantidadeComprada = 0;
+                    double valorTotal = 0;
 
 
                     foreach (var item in operacoes)
@@ -136,7 +137,8 @@ namespace WealthMVC.Services
                 }
 
                 context.Add(operacao);
-                context.Update(portifolio);
+                if (operacoes.Count == 0) { context.Add(portifolio); }
+                else { context.Update(portifolio); }
                 await context.SaveChangesAsync();
                 return eResult.Ok;
             }

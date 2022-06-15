@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WealthMVC.Migrations
 {
-    public partial class _10062022 : Migration
+    public partial class init2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -31,8 +31,8 @@ namespace WealthMVC.Migrations
                     Tipo = table.Column<int>(type: "int", nullable: false),
                     Data = table.Column<DateTime>(type: "datetime2", nullable: false),
                     AtivosId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Quantidade = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Preco = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    Quantidade = table.Column<double>(type: "float", nullable: false),
+                    Preco = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -50,8 +50,9 @@ namespace WealthMVC.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     AtivosId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Quantidade = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    Preco = table.Column<decimal>(type: "decimal(18,2)", nullable: true)
+                    Quantidade = table.Column<double>(type: "float", nullable: true),
+                    Preco = table.Column<double>(type: "float", nullable: true),
+                    PrecoAtual = table.Column<double>(type: "float", nullable: true)
                 },
                 constraints: table =>
                 {

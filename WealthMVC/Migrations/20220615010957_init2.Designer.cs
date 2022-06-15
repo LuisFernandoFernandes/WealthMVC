@@ -12,8 +12,8 @@ using Wealth.Tools.database;
 namespace WealthMVC.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20220603223504_portifolio")]
-    partial class portifolio
+    [Migration("20220615010957_init2")]
+    partial class init2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -61,12 +61,12 @@ namespace WealthMVC.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("Data");
 
-                    b.Property<decimal>("Preco")
-                        .HasColumnType("decimal(18,2)")
+                    b.Property<double>("Preco")
+                        .HasColumnType("float")
                         .HasColumnName("Preco");
 
-                    b.Property<decimal>("Quantidade")
-                        .HasColumnType("decimal(18,2)")
+                    b.Property<double>("Quantidade")
+                        .HasColumnType("float")
                         .HasColumnName("Quantidade");
 
                     b.Property<int>("Tipo")
@@ -90,17 +90,23 @@ namespace WealthMVC.Migrations
                         .HasColumnType("nvarchar(450)")
                         .HasColumnName("AtivosId");
 
-                    b.Property<string>("OperacoesId")
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnName("OperacoesId");
+                    b.Property<double?>("Preco")
+                        .HasColumnType("float")
+                        .HasColumnName("Preco");
+
+                    b.Property<double?>("PrecoAtual")
+                        .HasColumnType("float")
+                        .HasColumnName("PrecoAtual");
+
+                    b.Property<double?>("Quantidade")
+                        .HasColumnType("float")
+                        .HasColumnName("Quantidade");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AtivosId");
 
-                    b.HasIndex("OperacoesId");
-
-                    b.ToTable("PORTIFOLIO");
+                    b.ToTable("Portifolio");
                 });
 
             modelBuilder.Entity("WealthMVC.Models.Operacoes", b =>
@@ -118,13 +124,7 @@ namespace WealthMVC.Migrations
                         .WithMany()
                         .HasForeignKey("AtivosId");
 
-                    b.HasOne("WealthMVC.Models.Operacoes", "Operacoes")
-                        .WithMany()
-                        .HasForeignKey("OperacoesId");
-
                     b.Navigation("Ativos");
-
-                    b.Navigation("Operacoes");
                 });
 #pragma warning restore 612, 618
         }

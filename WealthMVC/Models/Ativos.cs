@@ -6,6 +6,9 @@ using WealthMVC.Enums;
 
 namespace WealthMVC.Models
 {
+    /// <summary>
+    /// Futuramente deverá receber os dados da Api quoteSumary do YahooFinance
+    /// </summary>
     [Table("ATIVOS")]
     public class Ativos : GenericModel
     {

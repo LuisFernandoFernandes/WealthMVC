@@ -59,12 +59,12 @@ namespace WealthMVC.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("Data");
 
-                    b.Property<decimal>("Preco")
-                        .HasColumnType("decimal(18,2)")
+                    b.Property<double>("Preco")
+                        .HasColumnType("float")
                         .HasColumnName("Preco");
 
-                    b.Property<decimal>("Quantidade")
-                        .HasColumnType("decimal(18,2)")
+                    b.Property<double>("Quantidade")
+                        .HasColumnType("float")
                         .HasColumnName("Quantidade");
 
                     b.Property<int>("Tipo")
@@ -88,12 +88,16 @@ namespace WealthMVC.Migrations
                         .HasColumnType("nvarchar(450)")
                         .HasColumnName("AtivosId");
 
-                    b.Property<decimal?>("Preco")
-                        .HasColumnType("decimal(18,2)")
+                    b.Property<double?>("Preco")
+                        .HasColumnType("float")
                         .HasColumnName("Preco");
 
-                    b.Property<decimal?>("Quantidade")
-                        .HasColumnType("decimal(18,2)")
+                    b.Property<double?>("PrecoAtual")
+                        .HasColumnType("float")
+                        .HasColumnName("PrecoAtual");
+
+                    b.Property<double?>("Quantidade")
+                        .HasColumnType("float")
                         .HasColumnName("Quantidade");
 
                     b.HasKey("Id");

@@ -22,11 +22,18 @@
             <th>
                 @Html.DisplayNameFor(model => model.Preco)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrecoAtual)
+            </th>
+             <th>
+               Total
+            </th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+            var total = item.Quantidade * item.PrecoAtual;
+            <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Ativos.Descricao)
             </td>
@@ -38,6 +45,13 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Preco)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrecoAtual)
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => total)
             </td>
         </tr>
 }

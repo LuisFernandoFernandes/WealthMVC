@@ -1,14 +1,31 @@
-﻿using WealthMVC.Models;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Wealth.Tools.database;
+using WealthMVC.Models;
 using WealthMVC.Services.Interfaces;
 
 namespace WealthMVC.Services
 {
     public class GenericService<T> : IGenericService<T>
     {
+
+        #region Variáveis
+
+        public Contexto _context;
+        public IValidationDictionary _validatonDictionary;
+
+        public ModelStateDictionary _modelState = new ModelStateDictionary();
+        #endregion
+
+
         #region Construtor
+        //public GenericService(IValidationDictionary validationDictionary, ModelStateDictionary modelState)
+        //{
+        //    _validatonDictionary = validationDictionary;
+        //    _modelState = modelState;
+        //}
+
         public GenericService()
         {
-
         }
         #endregion
 
