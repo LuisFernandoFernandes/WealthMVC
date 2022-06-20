@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Wealth.Tools.database;
 using WealthMVC.Enums;
 using WealthMVC.Interfaces;
@@ -39,8 +40,8 @@ namespace WealthMVC.Services
         public async Task<eResult> Create(Ativos ativos, Contexto context)
         {
 
-            ativos.Codigo = ativos.Codigo.ToUpper();
             ativos.Id = ValidaId(ativos.Id);
+            ativos.Codigo = AdequaTicker(ativos.Codigo);
             if (modelState.IsValid)
             {
 
@@ -50,6 +51,47 @@ namespace WealthMVC.Services
                 return eResult.Ok;
             }
             return eResult.Invalid;
+
+
+
+            //        try
+            //        {
+            //            var region = "US";
+            //            var lang = "en";
+            //            var symbols = string.Empty;
+
+            //            var httpClient = new HttpClient { BaseAddress = new Uri("https://yfapi.net") };
+            //            httpClient.DefaultRequestHeaders.Add("X-API-KEY",
+            //"psKuoR8Gii2Ekdql3xYBHbz3g8asvvx3MuIezIU3");
+            //            httpClient.DefaultRequestHeaders.Add("accept",
+            //"application/json");
+
+            //            //criar validação para adicionar .SA, caso de erro retirar o .SA 
+            //            symbols = ativos.Codigo;
+
+            //            QuoteResponse quote = new QuoteResponse();
+
+            //            var response = await httpClient.GetAsync($"v6/finance/quote?region={region}&lang={lang}&symbols={symbols}");
+
+            //            var responseBody = await response.Content.ReadAsStringAsync();
+
+
+            //            var data = JsonConvert.DeserializeObject<Root>(responseBody);
+            //            var results = data.quoteResponse.result;
+            //            ativos.Classe = results[0].
+
+
+            //                await context.SaveChangesAsync();
+
+            //        }
+            //        }
+            //        catch (Exception)
+            //        {
+
+            //            throw;
+            //        }
+
+
         }
         #endregion
 
@@ -138,5 +180,11 @@ namespace WealthMVC.Services
             return (context.Ativos?.Any(e => e.Id == id)).GetValueOrDefault();
         }
         #endregion
+
+        private string AdequaTicker(string ticker)
+        {
+            ticker = ticker.ToUpper();
+            return (Char.IsNumber(ticker[ticker.Length - 1])) ? ticker + ".SA" : ticker;
+        }
     }
 }

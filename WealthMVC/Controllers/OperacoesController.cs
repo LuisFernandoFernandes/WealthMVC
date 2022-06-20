@@ -48,7 +48,7 @@ namespace WealthMVC.Controllers
         #region Post Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Tipo,Data,AtivosId,Quantidade,Preco, QuantidadeAtual, PrecoAtual")] Operacoes operacao, Ativos ativos)
+        public async Task<IActionResult> Create([Bind("Id,Tipo,Data,AtivosId,Quantidade,Preco")] Operacoes operacao, Ativos ativos)
         {
 
             return (await _service.Create(operacao, ativos, _context) is eResult.Ok) ? RedirectToAction(nameof(Index)) : View(operacao);

@@ -70,7 +70,7 @@ namespace WealthMVC.Services
         public async Task<eResult> Create(Operacoes operacao, Ativos ativos, Contexto context)
         {
 
-            ativos.Codigo = ativos.Codigo.ToUpper();
+            ativos.Codigo = AdequaTicker(ativos.Codigo);
 
             ativos = context.Ativos.AsQueryable().Where(a => a.Codigo == ativos.Codigo).FirstOrDefault();
 
@@ -209,5 +209,11 @@ namespace WealthMVC.Services
             return eResult.Ok;
         }
         #endregion
+
+        private string AdequaTicker(string ticker)
+        {
+            ticker = ticker.ToUpper();
+            return (Char.IsNumber(ticker[ticker.Length - 1])) ? ticker + ".SA" : ticker;
+        }
     }
 }

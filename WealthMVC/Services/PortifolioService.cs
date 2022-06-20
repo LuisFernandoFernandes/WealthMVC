@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Refit;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using Wealth.Tools.database;
 using WealthMVC.Interfaces;
 using WealthMVC.Models;
@@ -74,10 +75,10 @@ namespace WealthMVC.Services
                 //List<double> precosAtuais = new List<double>();
                 foreach (var item in portifolioList)
                 {
-
+                    var ticker = AdequaTicker(item.Ativos.Codigo);
                     //if(item.Ativos.Region == eRegion.US) - Criar enum para valiadar a region
 
-                    symbols = (count == 0) ? item.Ativos.Codigo : symbols + "%2C" + item.Ativos.Codigo;
+                    symbols = (count == 0) ? ticker : symbols + "%2C" + ticker;
                     count = (count != 9) ? count + 1 : count = 0;
                     lastItem++;
 
@@ -98,12 +99,13 @@ namespace WealthMVC.Services
                         var data = JsonConvert.DeserializeObject<Root>(responseBody);
                         var results = data.quoteResponse.result;
 
+
+
+
+
                         for (int i = 0; i < results.Count; i++)
                         {
-                            //var codigo = results[i].symbol.ToUpper();
-                            //var ativo = context.Ativos.AsQueryable().Where(a => a.Codigo == codigo).FirstOrDefault();
-
-                            var ativoResult = context.Portifolio.AsQueryable().Where(a => a.Ativos.Codigo == results[i].symbol.ToUpper()).FirstOrDefault();
+                            var ativoResult = context.Portifolio.AsQueryable().Where(a => a.Ativos.Codigo == results[i].symbol).FirstOrDefault();
                             ativoResult.PrecoAtual = results[i].regularMarketPrice;
                             await context.SaveChangesAsync();
                             //precosAtuais.Add(data.quoteResponse.result[i].regularMarketPrice);
@@ -135,6 +137,13 @@ namespace WealthMVC.Services
 
                 throw;
             }
+        }
+        #endregion
+
+        #region Adequa Ticker
+        private string AdequaTicker(string ticker)
+        {
+            return (Char.IsNumber(ticker[ticker.Length - 1])) ? ticker + ".SA" : ticker;
         }
         #endregion
     }
