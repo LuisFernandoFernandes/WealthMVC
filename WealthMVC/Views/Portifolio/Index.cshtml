@@ -25,34 +25,84 @@
             <th>
                 @Html.DisplayNameFor(model => model.PrecoAtual)
             </th>
-             <th>
-               Total
+            <th>
+                Total
             </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @{
+            double? totalBRL = 0;
+            double? totalUSD = 0;
+        }
+        @foreach (var item in Model)
+        {
             var total = item.Quantidade * item.PrecoAtual;
+            var totalString = "";
+            var preco = "";
+            var precoAtual = "";
+
+
+            if (item.Ativos.Classe == WealthMVC.Enums.eAtivosClasse.Stock || item.Ativos.Classe == WealthMVC.Enums.eAtivosClasse.EtfExterior)
+            {
+                preco = $"${item.Preco}";
+                precoAtual = $"${item.PrecoAtual}";
+                totalString = $"${item.Quantidade * item.PrecoAtual}";
+                totalUSD = totalUSD + total;
+            }
+            else
+            {
+                totalString = $"R${item.Quantidade * item.PrecoAtual}";
+                preco = $"R${item.Preco}";
+                precoAtual = $"R${item.PrecoAtual}";
+                totalBRL = totalBRL + total;
+            }
             <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ativos.Descricao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ativos.Codigo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantidade)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => preco)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => precoAtual)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => totalString)
+                </td>
+            </tr>
+        }
+        <tr class="bg-dark">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Ativos.Descricao)
+                Total BRL:
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Ativos.Codigo)
+                R$@Html.DisplayFor(modelItem => totalBRL)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Quantidade)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Preco)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PrecoAtual)
+                Total USD:
             </td>
             <td>
-                @Html.DisplayFor(modelItem => total)
+                $@Html.DisplayFor(modelItem => totalUSD)
             </td>
         </tr>
-}
     </tbody>
 </table>

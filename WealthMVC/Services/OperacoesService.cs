@@ -93,8 +93,8 @@ namespace WealthMVC.Services
                     portifolio.Id = GeraId();
                     portifolio.AtivosId = ativos.Id;
                     portifolio.Ativos = ativos;
-                    portifolio.Quantidade = operacao.Quantidade;
-                    portifolio.Preco = operacao.Preco;
+                    portifolio.Quantidade = double.Parse(operacao.Quantidade);
+                    portifolio.Preco = double.Parse(operacao.Preco);
                 }
                 else
                 {
@@ -109,25 +109,25 @@ namespace WealthMVC.Services
                     {
                         if (item.Tipo == eOperacoesTipo.Compra)
                         {
-                            valorTotal = (item.Preco * item.Quantidade) + valorTotal;
-                            quantidadeComprada = quantidadeComprada + item.Quantidade;
-                            quantidadeAtual = quantidadeAtual + item.Quantidade;
+                            valorTotal = (double.Parse(item.Preco) * double.Parse(item.Quantidade)) + valorTotal;
+                            quantidadeComprada = quantidadeComprada + double.Parse(item.Quantidade);
+                            quantidadeAtual = quantidadeAtual + double.Parse(item.Quantidade);
                         }
                         else if (item.Tipo == eOperacoesTipo.Venda)
                         {
-                            quantidadeAtual = quantidadeAtual - item.Quantidade;
+                            quantidadeAtual = quantidadeAtual - double.Parse(item.Quantidade);
                         }
                     }
 
                     if (operacao.Tipo == eOperacoesTipo.Compra)
                     {
-                        valorTotal = (operacao.Preco * operacao.Quantidade) + valorTotal;
-                        quantidadeComprada = quantidadeComprada + operacao.Quantidade;
-                        quantidadeAtual = quantidadeAtual + operacao.Quantidade;
+                        valorTotal = (double.Parse(operacao.Preco) * double.Parse(operacao.Quantidade)) + valorTotal;
+                        quantidadeComprada = quantidadeComprada + double.Parse(operacao.Quantidade);
+                        quantidadeAtual = quantidadeAtual + double.Parse(operacao.Quantidade);
                     }
                     else if (operacao.Tipo == eOperacoesTipo.Venda)
                     {
-                        quantidadeAtual = quantidadeAtual - operacao.Quantidade;
+                        quantidadeAtual = quantidadeAtual - double.Parse(operacao.Quantidade);
                     }
 
                     var precoMedio = valorTotal / quantidadeComprada;

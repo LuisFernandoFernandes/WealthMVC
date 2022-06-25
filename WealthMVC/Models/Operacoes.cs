@@ -23,10 +23,10 @@ namespace WealthMVC.Models
 
         [Column("Quantidade")]
         [Display(Name = "Quantidade")]
-        public double Quantidade { get; set; }
+        public string Quantidade { get; set; }
 
         [Column("Preco")]
         [Display(Name = "Preço")]
-        public double Preco { get; set; }
+        public string Preco { get; set; }
     }
 }

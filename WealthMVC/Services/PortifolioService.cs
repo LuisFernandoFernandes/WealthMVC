@@ -66,7 +66,7 @@ namespace WealthMVC.Services
                 //var quoteApi = RestService.For<IQuoteApiService>("https://yfapi.net");
                 var httpClient = new HttpClient { BaseAddress = new Uri("https://yfapi.net") };
                 httpClient.DefaultRequestHeaders.Add("X-API-KEY",
-    "psKuoR8Gii2Ekdql3xYBHbz3g8asvvx3MuIezIU3");
+    "3is5bPA8jz2qISzKAokjk8kzWrbaxfwc850dCT7M");
                 httpClient.DefaultRequestHeaders.Add("accept",
     "application/json");
 
