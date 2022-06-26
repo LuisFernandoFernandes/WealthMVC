@@ -18,12 +18,6 @@ namespace WealthMVC.Services
 
 
         #region Construtor
-        //public GenericService(IValidationDictionary validationDictionary, ModelStateDictionary modelState)
-        //{
-        //    _validatonDictionary = validationDictionary;
-        //    _modelState = modelState;
-        //}
-
         public GenericService()
         {
         }
