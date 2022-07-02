@@ -6,27 +6,27 @@ namespace WealthMVC.Enums
     public enum eOperacoesTipo
     {
         [Display(Name = "Compra")]
-        Compra,
+        Compra = 0,
 
         [Display(Name = "Venda")]
-        Venda,
+        Venda = 1,
 
-        [Display(Name = "Dividendo")]
-        Dividendo,
+        //[Display(Name = "Dividendo")]
+        //Dividendo,
 
-        [Display(Name = "Juros Sobre Capital Próprio")]
-        JurosSobreCapitalProprio,
+        //[Display(Name = "Juros Sobre Capital Próprio")]
+        //JurosSobreCapitalProprio,
 
-        [Display(Name = "Rendimento")]
-        Rendimento,
+        //[Display(Name = "Rendimento")]
+        //Rendimento,
 
-        [Display(Name = "Bonificação")]
-        Bonificacao,
+        //[Display(Name = "Bonificação")]
+        //Bonificacao,
 
-        [Display(Name = "Desdobramento")]
-        Desdobramento,
+        //[Display(Name = "Desdobramento")]
+        //Desdobramento,
 
-        [Display(Name = "Grupamento")]
-        Grupamento,
+        //[Display(Name = "Grupamento")]
+        //Grupamento,
     }
 }

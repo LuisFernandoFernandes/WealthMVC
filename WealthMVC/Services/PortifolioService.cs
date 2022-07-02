@@ -63,7 +63,7 @@ namespace WealthMVC.Services
 
                 var httpClient = new HttpClient { BaseAddress = new Uri("https://yfapi.net") };
                 httpClient.DefaultRequestHeaders.Add("X-API-KEY",
-    "3is5bPA8jz2qISzKAokjk8kzWrbaxfwc850dCT7M");
+    "CXXvsFVjEhaPKXeO2GBR34clxG3TmplC48KvPsyc");
                 httpClient.DefaultRequestHeaders.Add("accept",
     "application/json");
 
@@ -89,7 +89,7 @@ namespace WealthMVC.Services
                         for (int i = 0; i < results.Count; i++)
                         {
                             var ativoResult = context.Portifolio.AsQueryable().Where(a => a.Ativos.Codigo == results[i].symbol).FirstOrDefault();
-                            ativoResult.PrecoAtual = results[i].regularMarketPrice;
+                            ativoResult.PrecoAtual = (decimal)results[i].regularMarketPrice;
                             await context.SaveChangesAsync();
                         }
                     }

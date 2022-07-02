@@ -10,6 +10,6 @@ namespace WealthMVC.Models
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Column("Id")]
         [Display(Name = "Id")]
-        public string Id { get; set; } = "";
+        public string Id { get; set; }
     }
 }

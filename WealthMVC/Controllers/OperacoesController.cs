@@ -51,7 +51,7 @@ namespace WealthMVC.Controllers
         public async Task<IActionResult> Create([Bind("Id,Tipo,Data,AtivosId,Quantidade,Preco")] Operacoes operacao, Ativos ativos)
         {
 
-            return (await _service.Create(operacao, ativos, _context) is eResult.Ok) ? RedirectToAction(nameof(Index)) : View(operacao);
+            return (await _service.Create(operacao, ativos, _context) is eResult.Ok) ? RedirectToAction(nameof(Index)) : (await _service.Create(operacao, ativos, _context) is eResult.Invalid) ? View(operacao) : RedirectToAction(nameof(Create), nameof(Ativos));
         }
         #endregion
 

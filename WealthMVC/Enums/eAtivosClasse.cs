@@ -9,32 +9,32 @@ namespace WealthMVC.Enums
 
 
         [Display(Name = "Ação")]
-        Acao,
+        Acao = 0,
 
         [Display(Name = "ETF")]
-        EtfBrasil,
+        EtfBrasil = 1,
 
         [Display(Name = "FII")]
-        Fii,
+        Fii = 2,
 
         [Display(Name = "BDR")]
-        Bdr,
+        Bdr = 3,
 
         #endregion
 
         #region Renda Variável Exterior
 
         [Display(Name = "Stock")]
-        Stock,
+        Stock = 4,
 
         [Display(Name = "ETF")]
-        EtfExterior,
+        EtfExterior = 5,
 
         [Display(Name = "Reits")]
-        Reits,
+        Reits = 6,
 
         [Display(Name = "ADR")]
-        ADR,
+        ADR = 7,
         #endregion
 
     }

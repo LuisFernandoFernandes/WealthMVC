@@ -32,8 +32,8 @@
     </thead>
     <tbody>
         @{
-            double? totalBRL = 0;
-            double? totalUSD = 0;
+            decimal totalBRL = 0;
+            decimal totalUSD = 0;
         }
         @foreach (var item in Model)
         {
@@ -42,20 +42,26 @@
             var preco = "";
             var precoAtual = "";
 
+            if(item.PrecoAtual == null)
+            {
+                item.PrecoAtual = item.Preco;
+            }
+
 
             if (item.Ativos.Classe == WealthMVC.Enums.eAtivosClasse.Stock || item.Ativos.Classe == WealthMVC.Enums.eAtivosClasse.EtfExterior)
             {
-                preco = $"${item.Preco}";
-                precoAtual = $"${item.PrecoAtual}";
-                totalString = $"${item.Quantidade * item.PrecoAtual}";
-                totalUSD = totalUSD + total;
+                preco = item.Preco.ToString("0.00");
+                precoAtual = "$" + item.PrecoAtual.ToString("0.00");
+                totalString = "$" + (item.Quantidade * item.PrecoAtual).ToString("0.00");
+                totalUSD = (totalUSD + total);
             }
             else
             {
-                totalString = $"R${item.Quantidade * item.PrecoAtual}";
-                preco = $"R${item.Preco}";
-                precoAtual = $"R${item.PrecoAtual}";
-                totalBRL = totalBRL + total;
+                preco = item.Preco.ToString("0.00");
+                precoAtual = "R$" + item.PrecoAtual.ToString("0.00");
+                totalString = "R$" + (item.Quantidade * item.PrecoAtual).ToString("0.00");
+                totalBRL = (totalBRL + total);
+
             }
             <tr>
                 <td>

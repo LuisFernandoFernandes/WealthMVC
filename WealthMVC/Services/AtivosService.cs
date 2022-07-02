@@ -40,8 +40,12 @@ namespace WealthMVC.Services
         public async Task<eResult> Create(Ativos ativos, Contexto context)
         {
 
-            ativos.Id = ValidaId(ativos.Id);
             ativos.Codigo = AdequaTicker(ativos.Codigo);
+
+            if (context.Ativos.AsQueryable().Where(a => a.Codigo == ativos.Codigo).FirstOrDefault() != null) return eResult.Ok;
+
+            ativos.Id = ValidaId(ativos.Id);
+
             if (modelState.IsValid)
             {
 
@@ -95,6 +99,8 @@ namespace WealthMVC.Services
         public async Task<eResult> Delete(string id, Contexto context)
         {
             if (id == null || _repository == null) { return eResult.NotFound; }
+
+            if (context.Operacoes.AsQueryable().Where(a => a.AtivosId == id).FirstOrDefault() != null) { return eResult.Invalid; }
 
             var ativos = await context.Ativos.FirstOrDefaultAsync(a => a.Id == id);
 

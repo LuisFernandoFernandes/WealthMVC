@@ -13,14 +13,14 @@ namespace WealthMVC.Models
 
         [Column("Quantidade")]
         [Display(Name = "Quantidade")]
-        public double? Quantidade { get; set; }
+        public decimal Quantidade { get; set; }
 
         [Column("Preco")]
         [Display(Name = "Preço")]
-        public double? Preco { get; set; }
+        public decimal Preco { get; set; }
 
         [Column("PrecoAtual")]
         [Display(Name = "Preço Atual")]
-        public double? PrecoAtual { get; set; }
+        public decimal PrecoAtual { get; set; }
     }
 }

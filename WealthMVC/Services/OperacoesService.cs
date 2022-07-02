@@ -59,7 +59,7 @@ namespace WealthMVC.Services
         }
         #endregion
 
-        #region OperacoesExists
+        #region Operacoes Exists
         public bool OperacoesExists(string id, Contexto context)
         {
             return (context.Operacoes?.Any(e => e.Id == id)).GetValueOrDefault();
@@ -74,11 +74,13 @@ namespace WealthMVC.Services
 
             ativos = context.Ativos.AsQueryable().Where(a => a.Codigo == ativos.Codigo).FirstOrDefault();
 
+            if (ativos is null) return eResult.NotFound;
+
             operacao.Ativos = ativos;
 
             operacao.AtivosId = operacao.Ativos.Id;
 
-            operacao.Id = context.ValidaId(operacao.Id);
+            operacao.Id = ValidaId(operacao.Id);
 
             var operacoes = context.Operacoes.AsQueryable().Where(a => a.AtivosId == ativos.Id).ToList();
 
@@ -93,41 +95,41 @@ namespace WealthMVC.Services
                     portifolio.Id = GeraId();
                     portifolio.AtivosId = ativos.Id;
                     portifolio.Ativos = ativos;
-                    portifolio.Quantidade = double.Parse(operacao.Quantidade);
-                    portifolio.Preco = double.Parse(operacao.Preco);
+                    portifolio.Quantidade = decimal.Parse(operacao.Quantidade.Replace(".", ","));
+                    portifolio.Preco = decimal.Parse(operacao.Preco.Replace(".", ","));
                 }
                 else
                 {
 
 
-                    double quantidadeAtual = 0;
-                    double quantidadeComprada = 0;
-                    double valorTotal = 0;
+                    decimal quantidadeAtual = 0;
+                    decimal quantidadeComprada = 0;
+                    decimal valorTotal = 0;
 
 
                     foreach (var item in operacoes)
                     {
                         if (item.Tipo == eOperacoesTipo.Compra)
                         {
-                            valorTotal = (double.Parse(item.Preco) * double.Parse(item.Quantidade)) + valorTotal;
-                            quantidadeComprada = quantidadeComprada + double.Parse(item.Quantidade);
-                            quantidadeAtual = quantidadeAtual + double.Parse(item.Quantidade);
+                            valorTotal = (decimal.Parse(item.Preco.Replace(".", ",")) * decimal.Parse(item.Quantidade.Replace(".", ","))) + valorTotal;
+                            quantidadeComprada = quantidadeComprada + decimal.Parse(item.Quantidade.Replace(".", ","));
+                            quantidadeAtual = quantidadeAtual + decimal.Parse(item.Quantidade.Replace(".", ","));
                         }
                         else if (item.Tipo == eOperacoesTipo.Venda)
                         {
-                            quantidadeAtual = quantidadeAtual - double.Parse(item.Quantidade);
+                            quantidadeAtual = quantidadeAtual - decimal.Parse(item.Quantidade);
                         }
                     }
 
                     if (operacao.Tipo == eOperacoesTipo.Compra)
                     {
-                        valorTotal = (double.Parse(operacao.Preco) * double.Parse(operacao.Quantidade)) + valorTotal;
-                        quantidadeComprada = quantidadeComprada + double.Parse(operacao.Quantidade);
-                        quantidadeAtual = quantidadeAtual + double.Parse(operacao.Quantidade);
+                        valorTotal = (decimal.Parse(operacao.Preco.Replace(".", ",")) * decimal.Parse(operacao.Quantidade.Replace(".", ","))) + valorTotal;
+                        quantidadeComprada = quantidadeComprada + decimal.Parse(operacao.Quantidade.Replace(".", ","));
+                        quantidadeAtual = quantidadeAtual + decimal.Parse(operacao.Quantidade.Replace(".", ","));
                     }
                     else if (operacao.Tipo == eOperacoesTipo.Venda)
                     {
-                        quantidadeAtual = quantidadeAtual - double.Parse(operacao.Quantidade);
+                        quantidadeAtual = quantidadeAtual - decimal.Parse(operacao.Quantidade.Replace(".", ","));
                     }
 
                     var precoMedio = valorTotal / quantidadeComprada;

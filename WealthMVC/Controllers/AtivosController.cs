@@ -73,7 +73,19 @@ namespace WealthMVC.Controllers
         #region Get Delete
         public async Task<IActionResult> Delete(string id)
         {
-            return (await _service.Delete(id, _context) is eResult.Ok) ? View(await _service.GetAtivoById(id, _context)) : NotFound();
+            var result = await _service.Delete(id, _context);
+
+            switch (result)
+            {
+                case eResult.Ok:
+                    return View(await _service.GetAtivoById(id, _context));
+                case eResult.Invalid:
+                    return NotFound("O Ativo não pode ser excluído.");
+                default:
+                    return NotFound();
+            }
+
+            //return (await _service.Delete(id, _context) is eResult.Ok) ? View(await _service.GetAtivoById(id, _context)) : NotFound("O Ativo não pode ser excluído.");
         }
         #endregion
 
